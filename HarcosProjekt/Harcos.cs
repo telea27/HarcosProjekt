@@ -97,7 +97,9 @@ namespace HarcosProjekt
 
         public override string ToString()
         {
-            return String.Format("{0} - LVL: {1} - EXP: {2} - HP: {3} - DMG: {4}",this.nev,this.szint,this.tapasztalat/SzintLepeshez(),this.eletero/MaxEletero(),Sebzes());
+            return String.Format("{0,-15} - LVL: {1,3} - EXP: {2,3}/{3,3} - HP: {4,3}/{5,3} - DMG: {6,3}",
+                this.nev,this.szint,this.tapasztalat,this.SzintLepeshez(),
+                this.eletero,this.MaxEletero(),Sebzes());
         }
 
         public void Megkuzd(Harcos masikHarcos)

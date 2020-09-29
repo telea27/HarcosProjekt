@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace HarcosProjekt
 {
@@ -10,9 +11,18 @@ namespace HarcosProjekt
     {
         static void Main(string[] args)
         {
-            Harcos samuel = new Harcos("Samuel", 1);
-            Harcos cooper = new Harcos("Cooper", 2);
-            Harcos fleto = new Harcos("Fletó", 3);
+            List<Harcos> harcosok = new List<Harcos>();
+
+            Harcos harcos1 = new Harcos("Harcos1",1);
+            Harcos harcos2 = new Harcos("Harcos2",2);
+            Harcos harcos3 = new Harcos("Harcos3",3);
+            Console.WriteLine(harcos1);
+            Console.WriteLine(harcos2);
+            Console.WriteLine(harcos3);
+
+
+
+            Console.ReadKey();
         }
     }
 }
