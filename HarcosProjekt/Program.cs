@@ -10,7 +10,9 @@ namespace HarcosProjekt
     {
         static void Main(string[] args)
         {
-
+            Harcos samuel = new Harcos("Samuel", 1);
+            Harcos cooper = new Harcos("Cooper", 2);
+            Harcos fleto = new Harcos("Fletó", 3);
         }
     }
 }

@@ -38,10 +38,31 @@ namespace HarcosProjekt
             this.eletero = MaxEletero();
         }
 
-        public string Nev { get => nev; set => nev = value; }
-        public int Szint { get => szint; set => szint = value; }
-        public int Tapasztalat { get => tapasztalat; set => tapasztalat = value; }
-        public int Eletero { get => eletero; set => eletero = value; }
+        public string Nev 
+        {
+            get => nev; 
+            set => nev = value;
+        }
+        public int Szint
+        { 
+            get => szint;
+            set => szint = value; 
+        }
+        public int Tapasztalat 
+        {
+            get => tapasztalat; 
+            set => tapasztalat = value;
+        }
+        public int Eletero 
+        { 
+            get => eletero;
+            
+            set
+            {
+                eletero = value;
+            }
+            
+        }
 
         public int Sebzes()
         {
@@ -60,5 +81,53 @@ namespace HarcosProjekt
         {
             return String.Format("{0} - LVL: {1} - EXP: {2} - HP: {3} - DMG: {4}",this.nev,this.szint,this.tapasztalat/SzintLepeshez(),this.eletero/MaxEletero(),Sebzes());
         }
+
+        public void Megkuzd(Harcos masikHarcos)
+        {
+            if (this.nev==masikHarcos.nev)
+            {
+                Console.WriteLine("Hiba, nem tud magával harcolni");
+                return;
+            }
+            if (this.Eletero==0||masikHarcos.Eletero==0)
+            {
+                Console.WriteLine("Ha bármely harcos életereje 0, nem tudnak harcolni");
+                return;
+            }
+            else
+            {
+                masikHarcos.Eletero -= this.Sebzes();
+            }
+            if (masikHarcos.Eletero>0)
+            {
+                this.Eletero -= masikHarcos.Sebzes();
+            }
+            if (this.Eletero>0||masikHarcos.Eletero>0)
+            {
+                this.Tapasztalat += 5;
+                masikHarcos.Tapasztalat += 5;
+            }
+            else if(this.Eletero==0)
+            {
+                masikHarcos.Tapasztalat += 10;
+            }
+            else if (masikHarcos.Eletero == 0)
+            {
+                this.Tapasztalat += 5;
+            }
+
+        }
+        public void Gyogyul()
+        {
+            if (this.Eletero == 0)
+            {
+                this.Eletero = this.MaxEletero();
+            }
+            else
+            {
+                this.Eletero += this.Szint + 3;
+            }
+        }
+        
     }
 }
