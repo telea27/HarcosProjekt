@@ -48,12 +48,7 @@ namespace HarcosProjekt
             get => szint;
             set
             {
-                if (this.Tapasztalat == this.SzintLepeshez())
-                {
-                    this.Tapasztalat -= this.SzintLepeshez();
-                    this.Szint++;
-                    this.Eletero = this.MaxEletero();
-                }
+                this.szint = value;
 
             }
         }
@@ -65,6 +60,12 @@ namespace HarcosProjekt
                 if (this.Eletero == 0)
                 {
                     this.Tapasztalat = 0;
+                }
+                if (this.Tapasztalat == this.SzintLepeshez())
+                {
+                    this.Tapasztalat -= this.SzintLepeshez();
+                    this.Szint++;
+                    this.Eletero = this.MaxEletero();
                 }
             }
         }
