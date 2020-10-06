@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.IO.IsolatedStorage;
+using System.Globalization;
 
 namespace HarcosProjekt
 {
@@ -14,20 +16,20 @@ namespace HarcosProjekt
         {
             List<Harcos> harcosok = new List<Harcos>();
 
-            Harcos harcos1 = new Harcos("Harcos1",1);
-            Harcos harcos2 = new Harcos("Harcos2",2);
-            Harcos harcos3 = new Harcos("Harcos3",3);
+            Harcos harcos1 = new Harcos("Pipibaba", 1);
+            Harcos harcos2 = new Harcos("Küratorp", 2);
+            Harcos harcos3 = new Harcos("Kvudrulf", 3);
             harcosok.Add(harcos1);
             harcosok.Add(harcos2);
             harcosok.Add(harcos3);
 
-            StreamReader r = new StreamReader("harcosok 1.csv",Encoding.Default);
+            StreamReader r = new StreamReader("harcosok 1.csv", Encoding.Default);
             string sor;
             while (!r.EndOfStream)
             {
                 sor = r.ReadLine();
-                string [] st = sor.Split(';');
-                Harcos h = new Harcos(st [0],Convert.ToInt32(st[1]));
+                string[] st = sor.Split(';');
+                Harcos h = new Harcos(st[0], Convert.ToInt32(st[1]));
                 harcosok.Add(h);
             }
             /*foreach (Harcos item in harcosok)
@@ -35,58 +37,75 @@ namespace HarcosProjekt
                 Console.WriteLine(item);
             }*/
             char k;
-            int szam;
+            string szam;
+            int szamlalo = 0;
+            Random rnd = new Random();
             Console.WriteLine("Kérem a harcos nevét");
             string bekertNev = Console.ReadLine();
             Console.WriteLine("Kérem a harcos státusszablonját");
             int bekertStatusszablon = Convert.ToInt32(Console.ReadLine());
             Harcos bekertHarcos = new Harcos(bekertNev, bekertStatusszablon);
-            do 
+            do
             {
+                szamlalo++;
+                Console.WriteLine(szamlalo + ". kör!");
                 Console.WriteLine("   " + bekertHarcos + "\n");
-                for (int i = 1; i < harcosok.Count; i++)
+                for (int i = 0; i < harcosok.Count; i++)
                 {
-                    Console.WriteLine("{0}. " + harcosok[i], i);
+                    Console.WriteLine("{0}. " + harcosok[i], i + 1);
                 }
-                Console.WriteLine("Mit kíván tenni a harcossal?\na) Megküzdeni\tb) Gyógyulni\tc)Kilépni");
-                k = Convert.ToChar(Console.ReadLine());
+
                 do
                 {
-                    Console.WriteLine("Nem létező menüpontot adott meg, mit kíván tenni?");
+                    Console.WriteLine("Mit kíván tenni a harcossal?\na) Megküzdeni\tb) Gyógyulni\tc)Kilépni");
                     k = Convert.ToChar(Console.ReadLine());
                 }
-                while (k!='a'||k!='b'||k!='c');
+                while (k != 'a' && k != 'b' && k != 'c');
 
                 if (k.Equals('a'))
                 {
-
-                    Console.WriteLine("Hanyadik harcossal szeretne küzdeni?");
-                    szam = Convert.ToInt32(Console.ReadLine());
-                    bekertHarcos.Megkuzd(harcosok[szam-1]);
-                    Console.WriteLine("   "+bekertHarcos+"\n");
-                    for (int i = 1; i < harcosok.Count; i++)
+                    string[] szamocskak = new string[harcosok.Count];
+                    for (int i = 0; i < harcosok.Count; i++)
                     {
-                        Console.WriteLine("{0}. " + harcosok[i], i);
+                        szamocskak[i] = Convert.ToString(i);
                     }
 
+                    bool l;
+                    do
+                    {
+                        Console.WriteLine("Hanyadik harcossal szeretne küzdeni?");
+                        szam = Console.ReadLine();
+                        l = false;
+                        if (szam.All(char.IsNumber))
+                        {
+                            l = true;
+                        }
+                    }
+                    while (!szamocskak.Contains(szam) && !l);
+
+                    bekertHarcos.Megkuzd(harcosok[Convert.ToInt32(szam) - 1]);
                 }
                 else if (k.Equals('b'))
                 {
                     bekertHarcos.Gyogyul();
-                    Console.WriteLine("   " + bekertHarcos + "\n");
-                    for (int i = 1; i < harcosok.Count; i++)
-                    {
-                        Console.WriteLine("{0}. " + harcosok[i], i);
-                    }
                 }
-                else if (k.Equals('c'))
+                if (szamlalo % 3 == 0)
                 {
+                    int harcosSzama = rnd.Next(0, harcosok.Count);
+                    bekertHarcos.Megkuzd(harcosok[harcosSzama]);
+                    Console.WriteLine("Megtámadott {0}!!!!!!!!!!!!",harcosok[harcosSzama].Nev);
+
+                    for (int i = 0; i < harcosok.Count; i++)
+                    {
+                        harcosok[i].Gyogyul();
+                    }
 
                 }
+                Console.Clear();
             }
-            while ();
+            while (!k.Equals('c'));
 
-            
+
 
 
 

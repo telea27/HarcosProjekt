@@ -54,35 +54,47 @@ namespace HarcosProjekt
         }
         public int Tapasztalat
         {
-            get => tapasztalat;
+            get
+            {
+                return this.tapasztalat;
+            }
             set
             {
-                if (this.Eletero == 0)
+                if (this.eletero <= 0)
                 {
-                    this.Tapasztalat = 0;
+                    this.tapasztalat = 0;
                 }
-                if (this.Tapasztalat == this.SzintLepeshez())
+                if (this.tapasztalat >= this.SzintLepeshez())
                 {
-                    this.Tapasztalat -= this.SzintLepeshez();
-                    this.Szint++;
-                    this.Eletero = this.MaxEletero();
+                    this.tapasztalat -= this.SzintLepeshez();
+                    this.szint++;
+                    this.eletero = this.MaxEletero();
+                }
+                else
+                {
+                    this.tapasztalat = value;
                 }
             }
         }
         public int Eletero 
-        { 
-            get => eletero;
-            
+        {
+            get
+            {
+                return this.eletero;
+            }
             set
             {
-                if(this.Eletero>this.MaxEletero())
+                if (this.eletero > this.MaxEletero())
                 {
-                    this.Eletero = this.MaxEletero();
+                    this.eletero = this.MaxEletero();
+                }
+                else
+                {
+                    this.eletero = value;
+
                 }
             }
-            
         }
-
         public int Sebzes()
         {
             return this.alapSebzes + this.szint;
@@ -110,7 +122,7 @@ namespace HarcosProjekt
                 Console.WriteLine("Hiba, nem tud magával harcolni");
                 return;
             }
-            if (this.Eletero==0||masikHarcos.Eletero==0)
+            if (this.eletero <= 0 || masikHarcos.eletero <= 0)
             {
                 Console.WriteLine("Ha bármely harcos életereje 0, nem tudnak harcolni");
                 return;
@@ -118,29 +130,32 @@ namespace HarcosProjekt
             else
             {
                 masikHarcos.Eletero -= this.Sebzes();
-            }
-            if (masikHarcos.Eletero>0)
-            {
-                this.Eletero -= masikHarcos.Sebzes();
-            }
-            if (this.Eletero>0||masikHarcos.Eletero>0)
-            {
-                this.Tapasztalat += 5;
-                masikHarcos.Tapasztalat += 5;
-            }
-            else if(this.Eletero==0)
-            {
-                masikHarcos.Tapasztalat += 10;
-            }
-            else if (masikHarcos.Eletero == 0)
-            {
-                this.Tapasztalat += 5;
-            }
 
+                if (masikHarcos.Eletero > 0)
+                {
+                    this.Eletero -= masikHarcos.Sebzes();
+                }
+                if (this.eletero > 0)
+                {
+                    this.Tapasztalat += 5;
+                }
+                if(masikHarcos.Eletero > 0)
+                {
+                    masikHarcos.Tapasztalat += 5;
+                }
+                if (this.Eletero == 0)
+                {
+                    masikHarcos.Tapasztalat += 10;
+                }
+                if (masikHarcos.Eletero == 0)
+                {
+                    this.Tapasztalat += 10;
+                }
+            }
         }
         public void Gyogyul()
         {
-            if (this.Eletero == 0)
+            if (this.Eletero <= 0)
             {
                 this.Eletero = this.MaxEletero();
             }
